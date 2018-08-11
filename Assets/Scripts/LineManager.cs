@@ -12,18 +12,22 @@ public class LineManager : MonoBehaviour
     private GameObject lineGO;
 
     public GameObject shootingZone;
-    
-    
+
+    Rect rect;
 
     LineScript activeLine;
 
+    private void Start()
+    {
+         rect = takeCubePosition();
+    }
 
-    void Update()
+
+    void FixedUpdate()
     {
        
-
         // add || inMenu when there will be one
-        if (takeCubePosition().Contains(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
+        if (rect.Contains(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {
             if (Input.GetMouseButtonDown(0))
             {

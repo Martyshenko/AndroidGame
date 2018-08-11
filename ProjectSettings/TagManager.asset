@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Mark
   - Line
+  - EvilMark
+  - maBone
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - BodyParts
+  - character
   - 
   - 
   - 
@@ -40,9 +42,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 1690178997
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: MarkLayer
     uniqueID: 74481397
+    locked: 0
+  - name: Midground
+    uniqueID: 1723957963
+    locked: 0
+  - name: Foreground
+    uniqueID: 380368653
     locked: 0

@@ -37,4 +37,5 @@ public class LineScript : MonoBehaviour {
     {
        return points.Last() - points.First();
     }
+
 }
