@@ -112,6 +112,7 @@ public class Character : MonoBehaviour {
 
         }
 
+        
         rb.position = rb.position + move.normalized*distance;
         
     }
@@ -122,7 +123,7 @@ public class Character : MonoBehaviour {
     {
         SetKinematic(false);
         GetComponent<Animator>().enabled = false;
-        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
     }
 
   
