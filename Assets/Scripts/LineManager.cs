@@ -20,12 +20,13 @@ public class LineManager : MonoBehaviour
     private void Start()
     {
          rect = takeCubePosition();
+        
     }
 
 
     void FixedUpdate()
     {
-       
+        rect = takeCubePosition();
         // add || inMenu when there will be one
         if (rect.Contains(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
         {

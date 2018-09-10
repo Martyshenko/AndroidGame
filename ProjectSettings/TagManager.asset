@@ -8,6 +8,7 @@ TagManager:
   - Line
   - EvilMark
   - maBone
+  - SmallBox
   layers:
   - Default
   - TransparentFX

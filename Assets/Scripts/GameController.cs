@@ -9,10 +9,17 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
     public GameObject gameOverText;
     public bool gameOver = false;
-    public float scrollSpeed = -20f;
+    public float scrollSpeed;
+
+    public Vector3 position;
+
     
 	
 	void Awake () {
+
+        position = new Vector3(5.1f, 0f, 0f);
+
+        scrollSpeed = -6f;
 
         if(instance == null)
         {
@@ -41,5 +48,6 @@ public class GameController : MonoBehaviour {
     {
        // gameOverText.SetActive(true);
         gameOver = true;
+        scrollSpeed = 0;
     }
 }
