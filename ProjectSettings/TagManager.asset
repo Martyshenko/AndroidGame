@@ -8,7 +8,12 @@ TagManager:
   - Line
   - EvilMark
   - maBone
+  - BigLine
+  - Ground
+  - SmallObstacle
   - SmallBox
+  - BigObstacle
+  - LongObstacle
   layers:
   - Default
   - TransparentFX

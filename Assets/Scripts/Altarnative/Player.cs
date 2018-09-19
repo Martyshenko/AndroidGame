@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     {
         switch (col.tag)
         {
-            case "SmallBox":
+            case "SmallObstacle":
                 jump = 1;
                 break;
             case "MediumBox":

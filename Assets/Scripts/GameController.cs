@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
         if(gameOver == true && Input.GetMouseButtonDown(0))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Time.timeScale = 1;
         }
 		
 	}
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour {
     {
        // gameOverText.SetActive(true);
         gameOver = true;
+        Time.timeScale = 0;
         scrollSpeed = 0;
     }
 }
