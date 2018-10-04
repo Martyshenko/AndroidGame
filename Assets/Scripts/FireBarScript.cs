@@ -9,6 +9,8 @@ public class FireBarScript : MonoBehaviour {
     
     float timeLeft;
 
+   
+
     public bool ready;
     public bool shooted;
 
@@ -22,10 +24,10 @@ public class FireBarScript : MonoBehaviour {
 
     void Update()
     {
-        if (timeLeft < 3)
+        if (timeLeft < 3f)
         {
             timeLeft += Time.deltaTime;
-            timerBar.fillAmount = timeLeft / 3;
+            timerBar.fillAmount = timeLeft / 3f;
 
         }
         else

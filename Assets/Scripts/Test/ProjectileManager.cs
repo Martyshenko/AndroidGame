@@ -1,127 +1,119 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class ProjectileManager : MonoBehaviour {
-
-
-    public GameObject linePrefab;
-    private GameObject lineGO;
-    Rect rect;
-    Vector2 firstPoint;
-
-
-    FireBarScript IfReadyToShoot;
-
+public class ProjectileManager : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+{
     
 
-    public TargetPosition positions;
-    Vector2 ChangeInPosition;
+    Vector2 prjleSpawnPoint;
+    Vector2 shootDir;
+    FireBarScript IfReadyToShoot;
+
+
+    bool loading;
+    bool spawnPointAssigned;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
 
-        
-
-        rect = takeCubePosition();
-        
-          positions.targetPosition = rect.position;
 
         IfReadyToShoot = FindObjectOfType<FireBarScript>();
 
+        //THIS Probably does something good relating to pixel drad threshold
+        //here is the source 
+        //http://ilkinulas.github.io/programming/unity/2016/03/18/unity_ui_drag_threshold.html
+
+        //int defaultValue = EventSystem.current.pixelDragThreshold;
+        //EventSystem.current.pixelDragThreshold =
+        //        Mathf.Max(
+        //             defaultValue,
+        //             (int)(defaultValue * Screen.dpi / 160f));
+
+
     }
 
-    void Update()
+
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        UpdateChangeInPos();
-        rect = takeCubePosition();
         
-        // add || inMenu when there will be one
-        if (rect.Contains(Camera.main.ScreenToWorldPoint(Input.mousePosition)))
-        {
-            Vector2 lastPoint;
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                firstPoint = mousePos;
-
-          
-
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                lastPoint = mousePos;
-                
-                
-                Shoot( lastPoint);
-            }
-
-        }
-
-        if (firstPoint != null)
-        {
-            
-            firstPoint.Set(firstPoint.x + ChangeInPosition.x, firstPoint.y + ChangeInPosition.y);
-            
-        }
+        
+        
+        checkPositionDirection(eventData);
+        
+        loading = true;
 
     }
 
-
-    private void Shoot( Vector2 lastPoint)
+    public void OnDrag(PointerEventData eventData)
     {
+        
+
+
+        if (loading == true)
+        {
+            checkPositionDirection(eventData);
+
+        }
+       
+    
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        
+        if (loading != false && spawnPointAssigned == true)
+        {
+            
+            Shoot(shootDir);
+            loading = false;
+            spawnPointAssigned = false;
+        }
+   
+    }
+
+    private void Shoot(Vector2 shootDirection)
+    {
+
+
         if (IfReadyToShoot.ready)
         {
-
             GameObject projectile = ObjectPooler.SharedInstance.GetPooledObject("BigLine");
 
             if (projectile != null)
             {
-                projectile.transform.position = lastPoint;
 
-                projectile.transform.up = lastPoint - firstPoint;
-                projectile.transform.rotation = Quaternion.FromToRotation(new Vector3(0, -1), lastPoint - firstPoint);
+                projectile.transform.position = prjleSpawnPoint;
+
+                projectile.transform.up = shootDirection;
+                projectile.transform.rotation = Quaternion.FromToRotation(new Vector3(0, -1), shootDirection);
 
                 projectile.SetActive(true);
 
                 IfReadyToShoot.shooted = true;
 
             }
+        }
+    }
+
+
+    private void checkPositionDirection(PointerEventData eventData)
+    {
+
+
+        if (eventData.pointerCurrentRaycast.isValid)
+        {
+
+            prjleSpawnPoint = eventData.pointerCurrentRaycast.worldPosition;
+
+            shootDir = eventData.delta.normalized;
+            spawnPointAssigned = true;
 
 
         }
         
-    }
-
-    private void UpdateChangeInPos()
-    {
-
-        positions.targetPositionOld = positions.targetPosition;
-        positions.targetPosition = rect.position;
-        
-         ChangeInPosition = -(positions.targetPositionOld - positions.targetPosition);
-
-     
-
-    }
-    private Rect takeCubePosition()
-    {
-        
-        Bounds bounds = GetComponent<Renderer>().bounds;
-
-        Rect rect = new Rect(bounds.min.x, bounds.min.y, bounds.size.x, bounds.size.y);
-
-
-        return rect;
-    }
-
-    public struct TargetPosition
-    {
-        public Vector2 targetPosition, targetPositionOld;
     }
 }

@@ -24,10 +24,22 @@ public class ProjectileObject : MonoBehaviour {
              
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "DuckZone")
+            
+            collision.gameObject.GetComponentInParent<QuadDodgerTest>().doDuck();
+
+        if (collision.gameObject.tag == "JumpZone")
+            collision.gameObject.GetComponentInParent<QuadDodgerTest>().doJump();
+    }
+
+
     void OnCollisionEnter2D(Collision2D other)
     {
-
-        if (other.gameObject.tag == "Ground")
+       
+        if (other.gameObject.tag == "Ground"|| other.gameObject.tag == "SmallObstacle"|| other.gameObject.tag == "BigObstacle")
         {
             objectRigidbody.simulated = false;
             objectRigidbody.velocity = Vector2.zero;

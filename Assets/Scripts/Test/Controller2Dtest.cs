@@ -17,15 +17,16 @@ public class Controller2Dtest : MonoBehaviour
     float horizontalRaySpacing;
     float verticalRaySpacing;
 
-    BoxCollider2D collider;
+   public BoxCollider2D colliderr;
     RaycastOrigins raycastOrigins;
     public CollisionInfo collisions;
 
-    void Start()
+    void Awake()
     {
-        collider = GetComponent<BoxCollider2D>();
+        colliderr = GetComponent<BoxCollider2D>();
         CalculateRaySpacing();
     }
+   
 
     public void Move(Vector3 velocity)
     {
@@ -64,7 +65,7 @@ public class Controller2Dtest : MonoBehaviour
 
             if (hit)
             {
-
+                
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
 
                 if (i == 0 && slopeAngle <= maxClimbAngle)
@@ -196,7 +197,7 @@ public class Controller2Dtest : MonoBehaviour
 
     void UpdateRaycastOrigins()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliderr.bounds;
         bounds.Expand(skinWidth * -2);
 
         raycastOrigins.bottomLeft = new Vector2(bounds.min.x, bounds.min.y);
@@ -207,7 +208,7 @@ public class Controller2Dtest : MonoBehaviour
 
     void CalculateRaySpacing()
     {
-        Bounds bounds = collider.bounds;
+        Bounds bounds = colliderr.bounds;
         bounds.Expand(skinWidth * -2);
 
         horizontalRayCount = Mathf.Clamp(horizontalRayCount, 2, int.MaxValue);

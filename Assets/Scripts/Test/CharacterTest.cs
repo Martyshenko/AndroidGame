@@ -4,9 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(Controller2Dtest))]
 public abstract class CharacterTest : MonoBehaviour
 {
-    public float maxJumpHeight = 4;
-    public float minJumpHeight = 1;
-    public float timeToJumpApex = .4f;
+    protected float maxJumpHeight = 6;
+    protected float minJumpHeight = 4;
+    public float timeToJumpApex = .6f;
     float accelerationTimeAirborne = .2f;
     float accelerationTimeGrounded = .1f;
     protected float moveSpeed = 6;
@@ -17,25 +17,26 @@ public abstract class CharacterTest : MonoBehaviour
     protected int jump = 0;
 
     float gravity;
-    float maxJumpVelocity;
-    float minJumpVelocity;
-    Vector3 velocity;
+    protected float maxJumpVelocity;
+    protected float minJumpVelocity;
+    protected Vector3 velocity;
     float velocityXSmoothing;
 
-    Controller2Dtest controller;
+    protected Controller2Dtest controller;
 
-    void Start()
+    void Awake()
     {
         controller = GetComponent<Controller2Dtest>();
 
         gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
-        print("Gravity: " + gravity + "  Jump " + maxJumpVelocity);
+        
     }
 
     void Update()
     {
+        IsItFallingOf();
 
         if (controller.collisions.above || controller.collisions.below)
         {
@@ -44,37 +45,7 @@ public abstract class CharacterTest : MonoBehaviour
 
         Vector2 input = Movement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && controller.collisions.below)
-        {
-            velocity.y = maxJumpVelocity;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            if (velocity.y > minJumpVelocity)
-            {
-                velocity.y = minJumpVelocity;
-            }
-        }
-
-
-        if (jump > 0 && controller.collisions.below)
-        {
-            switch (jump)
-            {
-                case 1:
-                    velocity.y = minJumpVelocity;
-                    jump = 0;
-
-                    break;
-                case 2:
-                    velocity.y = maxJumpVelocity;
-                    jump = 0;
-                    break;
-
-            }
-
-        }
+        JumpingAndDucking();
 
       float targetVelocityX = input.x * moveSpeed;
 
@@ -84,10 +55,10 @@ public abstract class CharacterTest : MonoBehaviour
     }
 
     
-
+    
     void OnTriggerEnter2D(Collider2D collision)
     {
-
+       
 
         switch (collision.tag)
         {
@@ -97,12 +68,18 @@ public abstract class CharacterTest : MonoBehaviour
             case "BigObstacle":
                 jump = 2;
                 break;
-
+            case "LongObstacle":
+                jump = 2;
+                break;
         }
 
     }
   
     protected abstract Vector2 Movement();
-   
+
+    protected abstract void IsItFallingOf();
+
+    protected abstract void JumpingAndDucking();
+  
 
 }

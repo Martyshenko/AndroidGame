@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114333955595427778}
   - component: {fileID: 212803450664384038}
   - component: {fileID: 61459174031140504}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BigLine
   m_TagString: BigLine
   m_Icon: {fileID: 0}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
@@ -9,7 +10,14 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
     public GameObject gameOverText;
     public bool gameOver = false;
+    public bool twoPlayers= false;
+
+    public GameObject jumpButton;
+    public GameObject duckButton;
+
     public float scrollSpeed;
+
+    public float lowestDeathBoundery = -12f;
 
     public Vector3 position;
 
@@ -28,18 +36,32 @@ public class GameController : MonoBehaviour {
         {
             Destroy(gameObject);
         }
-		
-	}
+
+        if (PlayerPrefs.GetInt("2Players") == 1)
+        {
+            twoPlayers = true;
+
+        }
+        else
+        {
+            jumpButton.SetActive(false);
+            duckButton.SetActive(false);
+
+        }
+
+    }
 
 
 
     // Update is called once per frame
     void Update () {
 
-        if(gameOver == true && Input.GetMouseButtonDown(0))
-        {
+        if(gameOver == true)
+            PauseGame();
+        if (gameOver == true && Input.GetMouseButtonDown(0))
+        {  
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Time.timeScale = 1;
+            UnPauseGame();
         }
 		
 	}
@@ -49,7 +71,18 @@ public class GameController : MonoBehaviour {
     {
        // gameOverText.SetActive(true);
         gameOver = true;
-        Time.timeScale = 0;
-        scrollSpeed = 0;
+        
+        
     }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void UnPauseGame()
+    {
+        Time.timeScale = 1;
+    }
+
 }
