@@ -36,6 +36,7 @@ public abstract class CharacterTest : MonoBehaviour
 
     void Update()
     {
+       
         IsItFallingOf();
 
         if (controller.collisions.above || controller.collisions.below)

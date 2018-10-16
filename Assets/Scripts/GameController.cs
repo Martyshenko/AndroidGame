@@ -70,9 +70,23 @@ public class GameController : MonoBehaviour {
     public void GameOver()
     {
        // gameOverText.SetActive(true);
-        gameOver = true;
-        
-        
+        gameOver = true;    
+    }
+
+    public void CompleteLevel()
+    {
+        //Complete the level, and save the progress
+        SaveManager.Instance.CompleteLevel(Manager.Instance.currentLevel);
+
+        //Focus the level selection when we return the menu
+        Manager.Instance.menuFocus = 1;
+
+        ExitScene();
+    }
+
+    public void ExitScene()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void PauseGame()
@@ -84,5 +98,6 @@ public class GameController : MonoBehaviour {
     {
         Time.timeScale = 1;
     }
+
 
 }

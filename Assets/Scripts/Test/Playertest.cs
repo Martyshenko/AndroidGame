@@ -50,7 +50,7 @@ public class Playertest : CharacterTest {
         if (collision.gameObject.tag == "EvilMark"|| collision.gameObject.tag == "BigLine")
         {
             
-            GameController.instance.GameOver();
+            //GameController.instance.GameOver();
         }
 
     }
